@@ -20,10 +20,10 @@ long,str,None,None,None,None,None,None,None,None,None,None,None,None,None,None,N
 36,"Dire Maul - West",,,,,,,,,,,,,,,,0xFF01FE,55,65,58,58,58,429,0,3,1,-1,"DIREMAUL",0,,1,"",,,,,,,,,,,,,,,,0xFF01FC
 38,"Dire Maul - North",,,,,,,,,,,,,,,,0xFF01FE,55,65,60,0,0,429,0,3,1,-1,"DIREMAUL",0,,1,"",,,,,,,,,,,,,,,,0xFF01FC
 40,"Stratholme - Main Gate",,,,,,,,,,,,,,,,0xFF01FE,55,65,60,0,0,329,0,3,1,-1,"STRATHOLME",0,,1,"",,,,,,,,,,,,,,,,0xFF01FC
-136,"Hellfire Ramparts",,,,,,,,,,,,,,,,0xFF01FE,57,67,63,59,62,543,0,3,1,-1,"HELLFIRECITADEL",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
-137,"Blood Furnace",,,,,,,,,,,,,,,,0xFF01FE,59,68,64,61,63,542,0,3,1,-1,"HELLFIRECITADEL",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
+136,"Hellfire Ramparts",,,,,,,,,,,,,,,,0xFF01FE,61,67,63,59,62,543,0,3,1,-1,"HELLFIRECITADEL",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
+137,"Blood Furnace",,,,,,,,,,,,,,,,0xFF01FE,61,68,64,61,63,542,0,3,1,-1,"HELLFIRECITADEL",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
 138,"Shattered Halls",,,,,,,,,,,,,,,,0xFF01FE,67,75,70,0,0,540,0,3,1,-1,"HELLFIRECITADEL",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
-140,"Slave Pens",,,,,,,,,,,,,,,,0xFF01FE,60,69,65,62,64,547,0,3,1,-1,"COILFANG",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
+140,"Slave Pens",,,,,,,,,,,,,,,,0xFF01FE,61,69,65,62,64,547,0,3,1,-1,"COILFANG",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
 146,"Underbog",,,,,,,,,,,,,,,,0xFF01FE,61,70,66,63,65,546,0,3,1,-1,"COILFANG",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
 147,"The Steamvault",,,,,,,,,,,,,,,,0xFF01FE,67,75,70,0,0,545,0,3,1,-1,"COILFANG",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
 148,"Mana-Tombs",,,,,,,,,,,,,,,,0xFF01FE,62,71,67,64,66,557,0,3,1,-1,"AUCHINDOUN",1,,2,"",,,,,,,,,,,,,,,,0xFF01FC
