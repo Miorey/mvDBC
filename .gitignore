@@ -1,0 +1,6 @@
+# Build output
+prod_serve_dbc/
+
+# Third-party tools — download separately (see README)
+MyDbcEditor 1.2.2.42/
+mpqeditor_en/
