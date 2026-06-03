@@ -4,6 +4,14 @@ This file documents conventions and workflows for AI agents working on this repo
 
 ---
 
+## Ground rules for agents
+
+- **Never merge pull requests.** Open PRs and push branches freely, but merging is a human decision only.
+- **Never force-push** to `master`.
+- **Always create a new branch** for changes — never commit directly to `master`.
+
+---
+
 ## What this repo does
 
 It manages custom **DBC (DataBase Client)** files for the **Murloc Village** WoW vanilla private server. DBC files are binary data tables used by both the game client and server. The canonical editable form is CSV; binary `.dbc` files are compiled outputs.
