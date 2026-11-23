@@ -59,10 +59,10 @@ ID,Name_enUS,Name_flags,MinLevel,MaxLevel,Target_level,Target_level_min,Target_l
 273,Maraudon - Pristine Waters,0x0,43,53,47,45,48,349,0,0x3,1,-1,MARAUDON,0,0,1,,0x0
 274,Stratholme - Service Entrance,0x0,55,65,60,0,0,329,0,0x3,1,-1,STRATHOLME,0,0,1,,0x0
 276,Blackrock Depths - Upper City,0x0,51,61,55,53,56,230,0,0x3,1,-1,BLACKROCKDEPTHS,0,0,1,,0x0
-285,The Headless Horseman,0x0,78,82,80,78,82,189,0,0xF,1,-1,HALLOWEEN,0,0,11,Defeat the mad Headless Horseman before he burns down every last settlement in Azeroth.,0x0
+285,The Headless Horseman,0x0,55,83,60,55,83,189,0,0xF,1,-1,HALLOWEEN,0,0,11,Defeat the mad Headless Horseman before he burns down every last settlement in Azeroth.,0x0
 286,The Frost Lord Ahune,0x0,78,82,80,78,82,547,0,0xF,1,-1,SUMMER,1,0,11,"Defeat Ahune, the Frost Lord, before he fully manifests in Azeroth and puts an end to Summer forever.",0x0
 287,Coren Direbrew,0x0,78,82,80,78,82,230,0,0xF,1,-1,BREW,0,0,11,Defeat the jealous Coren Direbrew to stop his incessant attacks upon the Brewfest festivities.,0x0
-288,The Crown Chemical Co.,0x0,78,82,80,78,82,33,0,0xF,1,-1,LOVE,0,0,11,"Defeat the insidious undead apothecaries of the Crown Chemical Co. before they unleash their newest, horrific plague.",0x0
+288,The Crown Chemical Co.,0x0,55,83,60,55,83,33,0,0xF,1,-1,LOVE,0,0,11,"Defeat the insidious undead apothecaries of the Crown Chemical Co. before they unleash their newest, horrific plague.",0x0
 42,Zul'Gurub,0x0,56,83,60,57,63,309,0,0x0,2,-1,ZulGurub,0,0,6,,0x0
 44,Upper Blackrock Spire,0x0,56,83,60,57,63,229,0,0x0,2,-1,BlackrockSpire,0,0,6,,0x0
 46,Onyxia's Lair,0x0,80,83,80,80,83,249,0,0x0,2,-1,,2,0,8,,0x0
