@@ -1,0 +1,11 @@
+{
+  "build": "3.3.5.12340",
+  "locales": ["enUS", "frFR"],
+  "server_locale": "enUS",
+  "tables": {
+    "Spell":           {"locales": ["enUS", "frFR"], "targets": ["client", "server"]},
+    "Item":            {"targets": ["client", "server"]},
+    "LFGDungeons":     {"locales": ["enUS"], "targets": ["server"]},
+    "LightIntBand":    {"targets": ["optional"]}
+  }
+}

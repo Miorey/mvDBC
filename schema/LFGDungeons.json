@@ -1,0 +1,24 @@
+{
+  "table": "LFGDungeons",
+  "build": "3.3.5.12340",
+  "source": "WoWDBDefs",
+  "fields": [
+    {"name": "ID", "type": "i32"},
+    {"name": "Name", "type": "loc"},
+    {"name": "MinLevel", "type": "i32"},
+    {"name": "MaxLevel", "type": "i32"},
+    {"name": "Target_level", "type": "i32"},
+    {"name": "Target_level_min", "type": "i32"},
+    {"name": "Target_level_max", "type": "i32"},
+    {"name": "MapID", "type": "i32"},
+    {"name": "Difficulty", "type": "i32"},
+    {"name": "Flags", "type": "i32", "hex": true},
+    {"name": "TypeID", "type": "i32"},
+    {"name": "Faction", "type": "i32"},
+    {"name": "TextureFilename", "type": "str"},
+    {"name": "ExpansionLevel", "type": "i32"},
+    {"name": "Order_index", "type": "i32"},
+    {"name": "Group_ID", "type": "i32"},
+    {"name": "Description", "type": "loc"}
+  ]
+}
