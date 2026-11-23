@@ -1,9 +1,13 @@
 PYTHON  ?= python3
 TOOL    := $(PYTHON) tools/dbctool.py
+MPQTOOL := $(PYTHON) tools/mpqtool.py
 BUILD   := build
 OUT_DIR := prod_serve_dbc
+LOCALES := enUS frFR
+# Every patch carries the full current client tables; the highest letter wins in the client.
+MPQ_SLOTS ?= K L
 
-.PHONY: help build check fmt server_dbc clean
+.PHONY: help build check fmt server_dbc mpq clean
 
 help:
 	@echo "Available targets:"
@@ -11,6 +15,7 @@ help:
 	@echo "  check       Validate CSVs: schema, duplicate IDs, canonical format, round-trip"
 	@echo "  fmt         Rewrite CSVs in canonical form (run after editing in a spreadsheet)"
 	@echo "  server_dbc  Build and assemble server DBC files into $(OUT_DIR)/"
+	@echo "  mpq         Build and pack the client patches Data/<locale>/patch-<locale>-<slot>.mpq ($(MPQ_SLOTS))"
 	@echo "  clean       Remove $(BUILD)/ and $(OUT_DIR)/"
 
 build:
@@ -28,6 +33,13 @@ server_dbc: build
 	cp ./$(BUILD)/server/*.dbc ./$(OUT_DIR)/
 	@echo "Built $(OUT_DIR)/:"
 	@ls ./$(OUT_DIR)/
+
+mpq: build
+	@for loc in $(LOCALES); do \
+		for slot in $(MPQ_SLOTS); do \
+			$(MPQTOOL) pack Data/$$loc/patch-$$loc-$$slot.mpq $(BUILD)/client/$$loc || exit 1; \
+		done; \
+	done
 
 clean:
 	rm -rf ./$(BUILD) ./$(OUT_DIR)
