@@ -1,30 +1,33 @@
+PYTHON  ?= python3
+TOOL    := $(PYTHON) tools/dbctool.py
+BUILD   := build
 OUT_DIR := prod_serve_dbc
 
-.PHONY: help server_dbc validate clean
+.PHONY: help build check fmt server_dbc clean
 
 help:
 	@echo "Available targets:"
-	@echo "  server_dbc  Assemble production server DBC files into $(OUT_DIR)/"
-	@echo "  validate    Check that all source DBC files exist"
-	@echo "  clean       Remove $(OUT_DIR)/"
+	@echo "  build       Compile tables/*.csv into $(BUILD)/ (client per locale, server, optional)"
+	@echo "  check       Validate CSVs: schema, duplicate IDs, canonical format, round-trip"
+	@echo "  fmt         Rewrite CSVs in canonical form (run after editing in a spreadsheet)"
+	@echo "  server_dbc  Build and assemble server DBC files into $(OUT_DIR)/"
+	@echo "  clean       Remove $(BUILD)/ and $(OUT_DIR)/"
 
-# Assemble server-side DBC files from Server/dbc/ (server-specific tables)
-# and enUS/DBC/DBFilesClient/ (client tables used by the server).
-# frFR DBCs contain only translated strings and are not needed server-side.
-server_dbc: validate
+build:
+	$(TOOL) build --out $(BUILD)
+
+check:
+	$(TOOL) check
+
+fmt:
+	$(TOOL) fmt
+
+server_dbc: build
 	rm -rf ./$(OUT_DIR)
 	mkdir -p ./$(OUT_DIR)
-	cp ./Server/dbc/* ./$(OUT_DIR)/
-	cp ./enUS/DBC/DBFilesClient/* ./$(OUT_DIR)/
+	cp ./$(BUILD)/server/*.dbc ./$(OUT_DIR)/
 	@echo "Built $(OUT_DIR)/:"
 	@ls ./$(OUT_DIR)/
 
-# Verify source files are present before attempting an assembly.
-validate:
-	@test -f Server/dbc/LFGDungeons.dbc      || (echo "ERROR: Server/dbc/LFGDungeons.dbc missing"; exit 1)
-	@test -f enUS/DBC/DBFilesClient/Item.dbc  || (echo "ERROR: enUS/DBC/DBFilesClient/Item.dbc missing"; exit 1)
-	@test -f enUS/DBC/DBFilesClient/Spell.dbc || (echo "ERROR: enUS/DBC/DBFilesClient/Spell.dbc missing"; exit 1)
-	@echo "Validation OK"
-
 clean:
-	rm -rf ./$(OUT_DIR)
+	rm -rf ./$(BUILD) ./$(OUT_DIR)

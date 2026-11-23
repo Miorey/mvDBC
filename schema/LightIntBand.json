@@ -1,0 +1,11 @@
+{
+  "table": "LightIntBand",
+  "build": "3.3.5.12340",
+  "source": "WoWDBDefs",
+  "fields": [
+    {"name": "ID", "type": "i32"},
+    {"name": "Num", "type": "i32"},
+    {"name": "Time", "type": "i32", "count": 16},
+    {"name": "Data", "type": "i32", "count": 16}
+  ]
+}

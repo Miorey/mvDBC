@@ -1,0 +1,15 @@
+{
+  "table": "CharStartOutfit",
+  "build": "3.3.5.12340",
+  "source": "WoWDBDefs",
+  "fields": [
+    {"name": "ID", "type": "i32"},
+    {"name": "RaceID", "type": "i8"},
+    {"name": "ClassID", "type": "i8"},
+    {"name": "SexID", "type": "i8"},
+    {"name": "OutfitID", "type": "i8"},
+    {"name": "ItemID", "type": "i32", "count": 24},
+    {"name": "DisplayItemID", "type": "i32", "count": 24},
+    {"name": "InventoryType", "type": "i32", "count": 24}
+  ]
+}

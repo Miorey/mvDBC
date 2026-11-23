@@ -14,11 +14,13 @@ This file documents conventions and workflows for AI agents working on this repo
 
 ## What this repo does
 
-It manages custom **DBC (DataBase Client)** files for the **Murloc Village** WoW vanilla private server. DBC files are binary data tables used by both the game client and server. The canonical editable form is CSV; binary `.dbc` files are compiled outputs.
+It manages custom **DBC** files (WoW client build 3.3.5a/12340) for the **Murloc Village** private server.
+**`tables/*.csv` is the only source of truth**; `.dbc` files are generated into `build/` (git-ignored) by
+`tools/dbctool.py`, driven by `schema/<Table>.json` (column names/types) and `dbc.json` (locales + targets).
 
-The repo ships two kinds of artifacts:
-- **Client patches** — MPQ archives (`Data/enUS/`, `Data/frFR/`) distributed to players
-- **Server DBCs** — assembled by `make server_dbc` into `prod_serve_dbc/`
+The repo ships:
+- **Client patches**: MPQ archives (`Data/enUS/`, `Data/frFR/`), packed manually from `build/client/<locale>/`
+- **Server DBCs**: `make server_dbc` → `prod_serve_dbc/`
 
 ---
 
@@ -26,25 +28,23 @@ The repo ships two kinds of artifacts:
 
 | Path | When to edit |
 |------|-------------|
-| `enUS/CSV/*.csv` | Adding or modifying English item/spell data |
-| `frFR/CSV/*.csv` | Adding or modifying French item/spell data (names, descriptions) |
-| `enUS/DBC/` / `frFR/DBC/` | Output only — compiled from the CSVs, do not hand-edit |
-| `Server/csv/LFGDungeons.csv` | Adding or adjusting dungeon finder entries |
-| `CharStartOutfit.dbc.csv` | Changing starting gear for any race/class combination |
-| `modified_DBC_history/` | **Always update** when changing Item or Spell data |
-| `Optional/` | Cosmetic/optional client tweaks; not required for gameplay |
+| `tables/*.csv` | Any data change. Localised text lives in `*_enUS` / `*_frFR` columns of the same row |
+| `schema/*.json` | Only to rename columns or toggle `"hex"`; field order/types must match the client build |
+| `dbc.json` | Adding a table, locale or build target |
+| `build/`, `prod_serve_dbc/` | Generated, never commit |
+| `legacy/` | Unmigrated old files, see README "Known issues" |
 
-Never commit `.dbc` binary files without a corresponding CSV change — the CSV is the source of truth.
+Always run `make fmt && make check` before committing a CSV change. Never commit `.dbc` files.
 
 ---
 
 ## Conventions
 
 ### Custom item IDs
-Custom items start at ID **60000** and increment upward. Always check the highest existing ID in `enUS/CSV/Item.csv` before assigning a new one.
+Custom items start at ID **60000** and increment upward. Always check the highest existing ID in `tables/Item.csv` before assigning a new one.
 
 ### Spell damage scaling
-When adapting retail/Cataclysm spell damage values down to vanilla tuning, the convention used in this project is **÷10**. Document both the original column value and the replacement in the history file.
+When adapting retail/Cataclysm spell damage values down to vanilla tuning, the convention used in this project is **÷10**. Document both the original value and the replacement (with the column name) in the commit/PR description.
 
 Example from `modified_DBC_history/Valentine_Vanilla_Spell_Update.txt`:
 ```
@@ -53,7 +53,7 @@ col. 81: 10799 -> 1079  ; #1/10 Damage minimum over time
 ```
 
 ### Locale parity
-`Item.dbc` and `Spell.dbc` must be updated for **both** `enUS` and `frFR`. The numeric data is identical; only the string columns (names, descriptions) differ between locales.
+Numeric data is shared by all locales (one row per record). When adding or changing text, fill **both** `*_enUS` and `*_frFR` columns.
 
 ### MPQ patch slots
 - Patch **K** — Valentine's Day event (enUS: `patch-enUS-K.mpq`, frFR: `patch-frFR-K.mpq`)
@@ -66,11 +66,11 @@ When adding a new seasonal event, assign the next available letter slot and upda
 ## How to add a new seasonal event
 
 1. **Plan IDs**: pick a free item ID range (≥ 60000) and note which existing spell IDs will be reused or modified.
-2. **Edit CSVs**: update `enUS/CSV/Item.csv` and `enUS/CSV/Spell.csv`. Mirror changes in `frFR/CSV/` with translated strings.
-3. **Document changes**: create a new file in `modified_DBC_history/` named `<EventName>_Item_Update.txt` and `<EventName>_Spell_Update.txt`. List every modified column with old → new values and a short comment.
-4. **Compile DBCs**: use MyDbcEditor to export updated CSVs to `.dbc` in the matching `DBC/DBFilesClient/` folders.
-5. **Pack MPQ**: use MPQEditor to insert the new `.dbc` files into the appropriate `Data/<locale>/patch-<locale>-<letter>.mpq`.
-6. **Build server files**: run `make server_dbc` and verify `prod_serve_dbc/` contains the expected files.
+2. **Edit CSVs**: update `tables/Item.csv` and `tables/Spell.csv`, filling both `_enUS` and `_frFR` text columns.
+3. **Validate**: `make fmt && make check`.
+4. **Document changes**: describe every modified spell/item (old → new values and why) in the commit message / PR description.
+5. **Build**: `make build`, then pack `build/client/<locale>/DBFilesClient/*.dbc` into `Data/<locale>/patch-<locale>-<letter>.mpq` with MPQEditor.
+6. **Server files**: `make server_dbc` and verify `prod_serve_dbc/`.
 7. **Update README**: add the new event to the "Events shipped so far" table.
 
 ---
@@ -79,15 +79,18 @@ When adding a new seasonal event, assign the next available letter slot and upda
 
 | Target | Effect |
 |--------|--------|
-| `make server_dbc` | Assembles `prod_serve_dbc/` from `Server/dbc/` + `enUS/DBC/DBFilesClient/` |
-| `make clean` | Deletes `prod_serve_dbc/` |
+| `make build` | Compile `tables/*.csv` into `build/` |
+| `make check` | Validate CSVs (header vs schema, duplicate IDs, canonical format, round-trip) |
+| `make fmt` | Normalise CSV formatting |
+| `make server_dbc` | Build, then assemble `prod_serve_dbc/` from `build/server/` |
+| `make clean` | Delete `build/` and `prod_serve_dbc/` |
 
 ---
 
 ## Key domain facts for agents
 
-- **DBC row 1 is the header** — the first CSV row names the column types (`long`, `str`, `flags`, etc.), not actual game data.
-- **Spell columns are positional** — there is no named-column schema in the binary format; column numbers referenced in the history files correspond to 1-indexed CSV columns.
+- **Columns are named** (WoWDBDefs names); arrays are 1-indexed (`Effect_1..3`). Column numbers in `modified_DBC_history/` refer to the old positional layout, so map them by name.
+- Strings are escaped on one line: `\n`, `\r`, `\\`. Flags/masks are hex; empty numeric cell = 0.
 - **`-1` means "none"** in most integer fields (e.g. item slots, display IDs).
-- **`LFGDungeons.dbc`** is server-side only; clients do not need it patched.
-- **`CharStartOutfit.dbc`** is keyed on `(race, class, gender)` — rows 1–N map to specific combinations; check existing rows before adding new ones.
+- **`LFGDungeons`** is server-side only; clients do not need it patched.
+- **`CharStartOutfit`** is keyed on `(race, class, sex)`; not yet migrated (see README).

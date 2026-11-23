@@ -1,0 +1,15 @@
+{
+  "table": "Item",
+  "build": "3.3.5.12340",
+  "source": "WoWDBDefs",
+  "fields": [
+    {"name": "ID", "type": "i32"},
+    {"name": "ClassID", "type": "i32"},
+    {"name": "SubclassID", "type": "i32"},
+    {"name": "Sound_override_subclassID", "type": "i32"},
+    {"name": "Material", "type": "i32"},
+    {"name": "DisplayInfoID", "type": "i32"},
+    {"name": "InventoryType", "type": "i32"},
+    {"name": "SheatheType", "type": "i32"}
+  ]
+}
