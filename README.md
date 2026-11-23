@@ -94,7 +94,7 @@ diff <(cut -d, -f1-20 tables/Spell.csv) <(cut -d, -f1-20 /tmp/other.csv)
 make mpq          # build, then pack Data/<locale>/patch-<locale>-<slot>.mpq for every slot in MPQ_SLOTS (K L)
 ```
 
-`tools/mpqtool.py` packs `build/client/<locale>/` (all of `DBFilesClient\\`) into an MPQ v1 archive and reads every file back to check it.
+`tools/mpqtool.py` packs `build/client/<locale>/` (all of `DBFilesClient\`) into an MPQ v1 archive and reads every file back to check it.
 Each patch carries the **full** current client tables, and the client uses the highest letter, so K and L are rebuilt identical: a player who has either one gets the current data.
 Inspect an archive with `python3 tools/mpqtool.py list Data/enUS/patch-enUS-L.mpq` or `extract`.
 
