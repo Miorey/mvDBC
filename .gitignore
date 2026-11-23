@@ -7,3 +7,6 @@ mpqeditor_en/
 
 # DBC build output (generated from tables/*.csv)
 build/
+
+# Python bytecode
+__pycache__/

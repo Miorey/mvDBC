@@ -53,7 +53,7 @@ make server_dbc   # build + assemble server DBCs into prod_serve_dbc/
 1. Edit the CSV in `tables/`: in a text editor, VS Code, or LibreOffice/Excel (save as CSV, UTF-8, comma-separated).
 2. Run `make fmt` to normalise the formatting (spreadsheets tend to reformat numbers/hex), then `make check`.
 3. Commit. The Git diff shows exactly which row and column changed.
-4. Run `make build` and pack the files from `build/client/<locale>/` into the MPQ patch (see below).
+4. Run `make mpq` to rebuild the client patches, and `make server_dbc` for the server (see below).
 
 ### CSV conventions
 
@@ -90,7 +90,15 @@ diff <(cut -d, -f1-20 tables/Spell.csv) <(cut -d, -f1-20 /tmp/other.csv)
 
 ## Building client patches (MPQ)
 
-MPQ packing is still manual. Use **Ladik's MPQ Editor** (Windows, runs under Wine) to open `Data/<locale>/patch-<locale>-<letter>.mpq` and replace the `DBFilesClient\*.dbc` files with the ones from `build/client/<locale>/DBFilesClient/`.
+```bash
+make mpq          # build, then pack Data/<locale>/patch-<locale>-<slot>.mpq for every slot in MPQ_SLOTS (K L)
+```
+
+`tools/mpqtool.py` packs `build/client/<locale>/` (all of `DBFilesClient\\`) into an MPQ v1 archive and reads every file back to check it.
+Each patch carries the **full** current client tables, and the client uses the highest letter, so K and L are rebuilt identical: a player who has either one gets the current data.
+Inspect an archive with `python3 tools/mpqtool.py list Data/enUS/patch-enUS-L.mpq` or `extract`.
+
+**The server needs the same data.** Client-side changes the server checks (e.g. `RequiredAreasID`, spell values) only work if the worldserver loads the matching `Spell.dbc`/`Item.dbc` from `make server_dbc` (or the same rows as `*_dbc` SQL overrides). A client-only change can make a spell look usable while the server still refuses it.
 
 ---
 
@@ -128,4 +136,5 @@ Older changes are documented in `modified_DBC_history/`. **Note:** the column nu
 
 - **`tools/dbctool.py`**: run `python3 tools/dbctool.py -h`.
 - **WoWDBDefs** (https://github.com/wowdev/WoWDBDefs): community column definitions used to generate `schema/`.
-- **MPQEditor** (Ladik): build and inspect MPQ patch archives. Download it separately.
+- **`tools/mpqtool.py`**: pack, list and extract MPQ archives (`python3 tools/mpqtool.py`).
+- **MPQEditor** (Ladik): optional, to inspect MPQ archives in a GUI. Download it separately.

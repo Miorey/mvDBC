@@ -19,7 +19,7 @@ It manages custom **DBC** files (WoW client build 3.3.5a/12340) for the **Murloc
 `tools/dbctool.py`, driven by `schema/<Table>.json` (column names/types) and `dbc.json` (locales + targets).
 
 The repo ships:
-- **Client patches**: MPQ archives (`Data/enUS/`, `Data/frFR/`), packed manually from `build/client/<locale>/`
+- **Client patches**: MPQ archives (`Data/enUS/`, `Data/frFR/`), packed by `make mpq` from `build/client/<locale>/`
 - **Server DBCs**: `make server_dbc` → `prod_serve_dbc/`
 
 ---
@@ -69,7 +69,7 @@ When adding a new seasonal event, assign the next available letter slot and upda
 2. **Edit CSVs**: update `tables/Item.csv` and `tables/Spell.csv`, filling both `_enUS` and `_frFR` text columns.
 3. **Validate**: `make fmt && make check`.
 4. **Document changes**: describe every modified spell/item (old → new values and why) in the commit message / PR description.
-5. **Build**: `make build`, then pack `build/client/<locale>/DBFilesClient/*.dbc` into `Data/<locale>/patch-<locale>-<letter>.mpq` with MPQEditor.
+5. **Build**: add the new letter to `MPQ_SLOTS` in the `Makefile`, then `make mpq` (packs the full client tables into every slot).
 6. **Server files**: `make server_dbc` and verify `prod_serve_dbc/`.
 7. **Update README**: add the new event to the "Events shipped so far" table.
 
@@ -83,6 +83,7 @@ When adding a new seasonal event, assign the next available letter slot and upda
 | `make check` | Validate CSVs (header vs schema, duplicate IDs, canonical format, round-trip) |
 | `make fmt` | Normalise CSV formatting |
 | `make server_dbc` | Build, then assemble `prod_serve_dbc/` from `build/server/` |
+| `make mpq` | Build, then pack `Data/<locale>/patch-<locale>-<slot>.mpq` for each slot in `MPQ_SLOTS` |
 | `make clean` | Delete `build/` and `prod_serve_dbc/` |
 
 ---
@@ -93,4 +94,5 @@ When adding a new seasonal event, assign the next available letter slot and upda
 - Strings are escaped on one line: `\n`, `\r`, `\\`. Flags/masks are hex; empty numeric cell = 0.
 - **`-1` means "none"** in most integer fields (e.g. item slots, display IDs).
 - **`LFGDungeons`** is server-side only; clients do not need it patched.
+- **Client and server must match** for anything the server validates (area restrictions, spell values): ship `make server_dbc` output to the worldserver along with the MPQ.
 - **`CharStartOutfit`** is keyed on `(race, class, sex)`; not yet migrated (see README).
