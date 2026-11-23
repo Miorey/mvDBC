@@ -132,6 +132,12 @@ Older changes are documented in `modified_DBC_history/`. **Note:** the column nu
 
 ---
 
+## Contributing
+
+Work on this repository is tracked in the Murloc Village server repository (private), which also holds the agent instructions for it (`.agents/docs/mv/mvdbc.md`). Open PRs on a branch; never commit `.dbc` files.
+
+---
+
 ## Tools
 
 - **`tools/dbctool.py`**: run `python3 tools/dbctool.py -h`.
