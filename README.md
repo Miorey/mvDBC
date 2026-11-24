@@ -110,6 +110,7 @@ Inspect an archive with `python3 tools/mpqtool.py list Data/enUS/patch-enUS-L.mp
 | `Item` | client, server | — | Custom item definitions |
 | `LFGDungeons` | server | enUS | Dungeon finder entries and level ranges |
 | `LightIntBand` | optional | — | Ambient lighting intensity bands |
+| `SkillLineAbility` | client, server | — | Profession recipes: which skill window lists a spell, and its skill-up range |
 
 ---
 
