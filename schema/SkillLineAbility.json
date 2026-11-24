@@ -1,0 +1,20 @@
+{
+  "table": "SkillLineAbility",
+  "build": "3.3.5.12340",
+  "source": "WoWDBDefs",
+  "fields": [
+    {"name": "ID", "type": "i32"},
+    {"name": "SkillLine", "type": "i32"},
+    {"name": "Spell", "type": "i32"},
+    {"name": "RaceMask", "type": "i32", "hex": true},
+    {"name": "ClassMask", "type": "i32", "hex": true},
+    {"name": "ExcludeRace", "type": "i32"},
+    {"name": "ExcludeClass", "type": "i32"},
+    {"name": "MinSkillLineRank", "type": "i32"},
+    {"name": "SupercededBySpell", "type": "i32"},
+    {"name": "AcquireMethod", "type": "i32"},
+    {"name": "TrivialSkillLineRankHigh", "type": "i32"},
+    {"name": "TrivialSkillLineRankLow", "type": "i32"},
+    {"name": "CharacterPoints", "type": "i32", "count": 2}
+  ]
+}

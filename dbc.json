@@ -6,6 +6,7 @@
     "Spell":           {"locales": ["enUS", "frFR"], "targets": ["client", "server"]},
     "Item":            {"targets": ["client", "server"]},
     "LFGDungeons":     {"locales": ["enUS"], "targets": ["server"]},
-    "LightIntBand":    {"targets": ["optional"]}
+    "LightIntBand":    {"targets": ["optional"]},
+    "SkillLineAbility": {"targets": ["client", "server"]}
   }
 }
